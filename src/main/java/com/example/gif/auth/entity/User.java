@@ -1,4 +1,4 @@
-package com.example.gif.domain.entity;
+package com.example.gif.auth.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
