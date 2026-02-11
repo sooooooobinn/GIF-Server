@@ -18,49 +18,22 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "username", nullable = false)
+    private String username;
+
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    private String nickname;
+    @Column(name = "provider", nullable = false)
+    private String provider;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
+    public User updateUser(String username, String email) {
+        this.username = username;
+        this.email = email;
 
-    public enum Role {
-        USER, ADMIN
-    }
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private UserStatus status;
-
-    @Column(nullable = false, unique = true)
-    private String providerId;
-
-    public enum UserStatus {
-        ACTIVE,
-        INACTIVE,
-        DELETED
-    }
-
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
-
-    public static User createSocialUser(String email, String nickname, String providerId) {
-        User user = new User();
-        user.email = email;
-        user.nickname = nickname;
-        user.providerId = providerId;
-        user.role = Role.USER;
-        user.status = UserStatus.ACTIVE;
-        return user;
+        return this;
     }
 }
