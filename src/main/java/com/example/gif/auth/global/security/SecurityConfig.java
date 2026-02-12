@@ -3,7 +3,7 @@ package com.example.gif.auth.global.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.ㄴ.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -13,9 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final OAuthenticationProviderRouter oAuthenticationProviderRouter;
-    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final OAuth2Service oAuth2Service;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
