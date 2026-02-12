@@ -1,19 +1,16 @@
 package com.example.gif.auth.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@DynamicUpdate
 @AllArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class User {
 
     @Id
