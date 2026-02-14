@@ -5,28 +5,23 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class UserProfile {
+
     private String username;
-    private String provider;
+
+    private User.Provider provider;
+
     private String email;
 
-    public void setUsername(String userName) {
-        this.username = userName;
-    }
-
-    public void setProvider(String provider) {
-        this.provider = provider;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    private String providerId;
 
     public User toEntity() {
         return User.builder()
                 .username(this.username)
                 .email(this.email)
                 .provider(this.provider)
+                .providerId(this.providerId)
                 .build();
     }
 }
