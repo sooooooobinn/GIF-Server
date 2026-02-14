@@ -62,7 +62,6 @@ public class User {
     public User updateUser(String username, String email) {
         this.username = username;
         this.email = email;
-
         return this;
     }
 }
