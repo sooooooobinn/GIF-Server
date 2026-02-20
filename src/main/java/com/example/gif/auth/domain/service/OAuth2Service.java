@@ -50,10 +50,6 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth
 
         String loginType = (String) request.getSession().getAttribute("loginType");
 
-        if(loginType == null) {
-            loginType = "client";
-        }
-
         updateOrSaveUser(userProfile, loginType);
 
         request.getSession().removeAttribute("loginType");
