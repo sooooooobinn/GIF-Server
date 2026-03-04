@@ -12,6 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final OAuth2Service oAuth2Service;
+    private final CustomOAuth2SuccessHandler successHandler;
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
