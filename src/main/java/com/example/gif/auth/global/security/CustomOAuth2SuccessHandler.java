@@ -30,10 +30,8 @@ public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler 
 
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
-        String providerStr = oAuth2User.getAttribute("provider");
+        User.Provider provider = User.Provider.GOOGLE;
         String providerId = oAuth2User.getName();
-
-        User.Provider provider = User.Provider.valueOf(providerStr.toUpperCase());
 
         String loginType =
                 (String) request.getSession().getAttribute("loginType");
@@ -54,7 +52,7 @@ public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler 
                                 User.builder()
                                         .username(name)
                                         .email(email)
-                                        .provider(User.Provider.GOOGLE)
+                                        .provider(provider)
                                         .providerId(providerId)
                                         .userType(userType)
                                         .role(null)
