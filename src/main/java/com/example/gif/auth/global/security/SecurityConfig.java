@@ -35,6 +35,7 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(oAuth2Service)
                         )
+                        .successHandler(successHandler)
                 )
 
                 .build();
