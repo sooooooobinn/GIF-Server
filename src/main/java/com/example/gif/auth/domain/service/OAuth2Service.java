@@ -30,28 +30,32 @@ public class OAuth2Service extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) {
-
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
+        // 💡 수정 포인트: userRequest.getAttributes()는 존재하지 않습니다.
+        // 대신 Resolver에서 attributes에 담았다면 아래와 같이 꺼내야 합니다.
+        Object loginTypeObj = userRequest.getAdditionalParameters().get("loginType");
+        String loginType = (loginTypeObj != null) ? loginTypeObj.toString() : null;
+
+        // 만약 위 코드가 안 된다면 (버전에 따라 다름), 아래 코드로 시도하세요.
+        if (loginType == null) {
+            loginType = (String) userRequest.getAdditionalParameters().get("loginType");
+        }
+
+        System.out.println("===> 최종 추출된 loginType: " + loginType);
+
+        if (loginType == null) loginType = "client";
+
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
+        String userNameAttributeName = userRequest.getClientRegistration()
+                .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
-        String userNameAttributeName =
-                userRequest.getClientRegistration()
-                        .getProviderDetails()
-                        .getUserInfoEndpoint()
-                        .getUserNameAttributeName();
+        UserProfile userProfile = OAuthAttributes.extract(registrationId, oAuth2User.getAttributes());
 
-        Map<String, Object> attributes = oAuth2User.getAttributes();
+        saveOrUpdateUser(userProfile, loginType);
 
-        UserProfile userProfile = OAuthAttributes.extract(registrationId, attributes);
-
-        saveOrUpdateUser(userProfile, "client");
-
-        Map<String, Object> customAttribute = new ConcurrentHashMap<>();
-        customAttribute.put(userNameAttributeName, attributes.get(userNameAttributeName));
-        customAttribute.put("provider", registrationId);
-        customAttribute.put("name", userProfile.getUsername());
-        customAttribute.put("email", userProfile.getEmail());
+        Map<String, Object> customAttribute = new ConcurrentHashMap<>(oAuth2User.getAttributes());
+        customAttribute.put("loginType", loginType);
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_GUEST")),
@@ -108,5 +112,14 @@ public class OAuth2Service extends DefaultOAuth2UserService {
                 request.getUsername(),
                 request.getRole()
         );
+    }
+
+    private String getLoginTypeFromRequest() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String loginType = (String) request.getSession().getAttribute("loginType");
+
+        System.out.println("로그인 시도 타입: " + loginType);
+
+        return (loginType != null) ? loginType : "client";
     }
 }
