@@ -18,9 +18,10 @@ public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String salt;
 
-    private Key secretKey;
+    @Value("${jwt.expiration-time}")
+    private long expirationTime;
 
-    private final long exp = 1000L * 60 * 60;
+    private Key secretKey;
 
     @PostConstruct
     protected void init() {
@@ -36,7 +37,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + exp))
+                .setExpiration(new Date(now.getTime() + expirationTime))
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
