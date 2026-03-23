@@ -1,12 +1,12 @@
 package com.example.gif.domain.form.service;
 
-import com.form.common.auth.MockAuthUser;
-import com.form.domain.form.dto.FormCreateRequest;
-import com.form.domain.form.dto.FormResponse;
-import com.form.domain.form.entity.Form;
-import com.form.domain.form.entity.FormField;
-import com.form.domain.form.repository.FormRepository;
-import com.form.domain.user.entity.User;
+import com.example.gif.common.auth.MockAuthUser;
+import com.example.gif.domain.form.dto.FormCreateRequest;
+import com.example.gif.domain.form.dto.FormResponse;
+import com.example.gif.domain.form.entity.Form;
+import com.example.gif.domain.form.entity.FormField;
+import com.example.gif.domain.form.repository.FormRepository;
+import com.example.gif.domain.form.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +54,7 @@ public class FormService {
     @Transactional(readOnly = true)
     public FormResponse getForm(Long formId) {
         Form form = formRepository.findById(formId)
-                .orElseThrow(() -> new IllegalArgumentException("양식을 찾을 수 없습니다."));
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("양식을 찾을 수 없습니다."));
         return FormResponse.from(form);
     }
 }
