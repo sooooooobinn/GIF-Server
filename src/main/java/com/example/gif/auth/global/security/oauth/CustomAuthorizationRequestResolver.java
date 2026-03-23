@@ -30,19 +30,18 @@ public class CustomAuthorizationRequestResolver implements OAuth2AuthorizationRe
         OAuth2AuthorizationRequest authorizationRequest = defaultResolver.resolve(request, clientRegistrationId);
         return customize(authorizationRequest, request);
     }
-    
+
     private OAuth2AuthorizationRequest customize(OAuth2AuthorizationRequest authorizationRequest, HttpServletRequest request) {
         if (authorizationRequest == null) return null;
 
         String loginType = request.getParameter("loginType");
         if (loginType == null) return authorizationRequest;
 
-        // 💡 수정: getAttributes()가 아니라 getAdditionalParameters()를 가져와야 합니다.
         Map<String, Object> additionalParameters = new HashMap<>(authorizationRequest.getAdditionalParameters());
         additionalParameters.put("loginType", loginType);
 
         return OAuth2AuthorizationRequest.from(authorizationRequest)
-                .additionalParameters(additionalParameters) // 💡 여기에 쏙 들어갑니다.
+                .additionalParameters(additionalParameters)
                 .build();
     }
 }
