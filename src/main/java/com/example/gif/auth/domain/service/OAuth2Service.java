@@ -32,19 +32,12 @@ public class OAuth2Service extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        // 💡 수정 포인트: userRequest.getAttributes()는 존재하지 않습니다.
-        // 대신 Resolver에서 attributes에 담았다면 아래와 같이 꺼내야 합니다.
         Object loginTypeObj = userRequest.getAdditionalParameters().get("loginType");
         String loginType = (loginTypeObj != null) ? loginTypeObj.toString() : null;
 
-        // 만약 위 코드가 안 된다면 (버전에 따라 다름), 아래 코드로 시도하세요.
         if (loginType == null) {
-            loginType = (String) userRequest.getAdditionalParameters().get("loginType");
+            loginType = getLoginTypeFromRequest();
         }
-
-        System.out.println("===> 최종 추출된 loginType: " + loginType);
-
-        if (loginType == null) loginType = "client";
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         String userNameAttributeName = userRequest.getClientRegistration()
@@ -65,34 +58,25 @@ public class OAuth2Service extends DefaultOAuth2UserService {
     }
 
     private void saveOrUpdateUser(UserProfile profile, String loginType) {
+        User.UserType userType = "admin".equalsIgnoreCase(loginType)
+                ? User.UserType.ADMIN
+                : User.UserType.CLIENT;
 
-        User.UserType userType =
-                "admin".equalsIgnoreCase(loginType)
-                        ? User.UserType.ADMIN
-                        : User.UserType.CLIENT;
-
-        userRepository.findByProviderAndProviderId(
-                        profile.getProvider(),
-                        profile.getProviderId()
-                )
-                .orElseGet(() ->
-                        userRepository.save(
-                                User.builder()
-                                        .username(profile.getUsername())
-                                        .email(profile.getEmail())
-                                        .provider(profile.getProvider())
-                                        .providerId(profile.getProviderId())
-                                        .userType(userType)
-                                        .role(null)
-                                        .build()
-                        )
-                );
+        userRepository.findByProviderAndProviderId(profile.getProvider(), profile.getProviderId())
+                .orElseGet(() -> userRepository.save(
+                        User.builder()
+                                .username(profile.getUsername())
+                                .email(profile.getEmail())
+                                .provider(profile.getProvider())
+                                .providerId(profile.getProviderId())
+                                .userType(userType)
+                                .build()
+                ));
     }
 
     @Transactional
-    public void completeClientInfo(Long userId, ClientAdditionalInfo request) {
-
-        User user = userRepository.findById(userId)
+    public void completeClientInfo(String providerId, ClientAdditionalInfo request) {
+        User user = userRepository.findByProviderAndProviderId(User.Provider.GOOGLE, providerId)
                 .orElseThrow(() -> new IllegalArgumentException("유저 없음"));
 
         user.completeClientInfo(
@@ -103,9 +87,8 @@ public class OAuth2Service extends DefaultOAuth2UserService {
     }
 
     @Transactional
-    public void completeAdminInfo(Long userId, AdminAdditionalInfo request) {
-
-        User user = userRepository.findById(userId)
+    public void completeAdminInfo(String providerId, AdminAdditionalInfo request) {
+        User user = userRepository.findByProviderAndProviderId(User.Provider.GOOGLE, providerId)
                 .orElseThrow(() -> new IllegalArgumentException("유저 없음"));
 
         user.completeAdminInfo(
@@ -115,11 +98,12 @@ public class OAuth2Service extends DefaultOAuth2UserService {
     }
 
     private String getLoginTypeFromRequest() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        String loginType = (String) request.getSession().getAttribute("loginType");
-
-        System.out.println("로그인 시도 타입: " + loginType);
-
-        return (loginType != null) ? loginType : "client";
+        try {
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+            String loginType = (String) request.getSession().getAttribute("loginType");
+            return (loginType != null) ? loginType : "client";
+        } catch (Exception e) {
+            return "client";
+        }
     }
 }
