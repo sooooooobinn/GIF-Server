@@ -1,4 +1,4 @@
-package com.example.gif.entity;
+package com.example.gif.project.entity;
 
 import jakarta.persistence.*;
 

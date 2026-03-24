@@ -1,4 +1,4 @@
-package com.example.gif.dto;
+package com.example.gif.project.dto;
 
 import java.util.List;
 
