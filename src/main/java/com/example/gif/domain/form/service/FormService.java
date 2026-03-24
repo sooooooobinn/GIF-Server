@@ -1,6 +1,5 @@
 package com.example.gif.domain.form.service;
 
-import com.example.gif.common.auth.MockAuthUser;
 import com.example.gif.domain.form.dto.FormCreateRequest;
 import com.example.gif.domain.form.dto.FormResponse;
 import com.example.gif.domain.form.entity.Form;
@@ -21,19 +20,13 @@ public class FormService {
 
     @Transactional
     public FormResponse createForm(FormCreateRequest request, User currentUser) {
-        // ADMIN 권한 체크
-        if (currentUser.getRole() != User.Role.ADMIN) {
-            throw new IllegalStateException("양식 생성은 ADMIN만 가능합니다.");
-        }
 
-        // Form 생성
         Form form = Form.builder()
                 .title(request.getTitle())
                 .deadline(request.getDeadline())
                 .createdBy(currentUser)
                 .build();
 
-        // FormField 생성
         if (request.getFields() != null) {
             List<FormField> fields = request.getFields().stream()
                     .map(f -> FormField.builder()

@@ -1,8 +1,8 @@
 package com.example.gif.domain.form.dto;
 
-import com.form.domain.form.entity.FieldStyle;
-import com.form.domain.form.entity.Form;
-import com.form.domain.form.entity.FormField;
+import com.example.gif.domain.form.entity.FieldStyle;
+import com.example.gif.domain.form.entity.Form;
+import com.example.gif.domain.form.entity.FormField;
 import lombok.Builder;
 import lombok.Getter;
 

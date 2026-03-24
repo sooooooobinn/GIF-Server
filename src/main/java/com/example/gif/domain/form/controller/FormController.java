@@ -4,7 +4,7 @@ import com.example.gif.common.auth.MockAuthUser;
 import com.example.gif.domain.form.dto.FormCreateRequest;
 import com.example.gif.domain.form.dto.FormResponse;
 import com.example.gif.domain.form.service.FormService;
-import com.example.gif.domain.user.entity.User;
+import com.example.gif.domain.form.entity.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class FormController {
     public ResponseEntity<FormResponse> createForm(
             @Valid @RequestBody FormCreateRequest request
     ) {
-        User currentUser = MockAuthUser.getAdminUser(); // 임시 ADMIN 유저
+        User currentUser = MockAuthUser.getAdminUser();
         FormResponse response = formService.createForm(request, currentUser);
         return ResponseEntity.ok(response);
     }

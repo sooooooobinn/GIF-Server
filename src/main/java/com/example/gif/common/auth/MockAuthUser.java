@@ -1,8 +1,8 @@
 package com.example.gif.common.auth;
 
-import com.gif.domain.user.entity.User;
+import com.example.gif.domain.form.entity.User;
 
-// 임시 Mock 인증 유저입니다!
+// 임시 Mock 인증 유저입니다
 // Oauth 개발 완료시 삭제하기
 public class MockAuthUser {
 

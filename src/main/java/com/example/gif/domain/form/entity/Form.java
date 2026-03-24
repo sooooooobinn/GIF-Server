@@ -1,8 +1,9 @@
 package com.example.gif.domain.form.entity;
 
+
 import jakarta.persistence.*;
 import lombok.*;
-
+import com.example.gif.domain.form.entity.User;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
