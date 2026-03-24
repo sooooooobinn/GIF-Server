@@ -1,6 +1,6 @@
-package org.example.project.repository;
+package com.example.gif.repository;
 
-import org.example.project.entity.User;
+import com.example.gif.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

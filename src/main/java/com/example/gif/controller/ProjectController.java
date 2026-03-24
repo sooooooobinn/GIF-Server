@@ -1,9 +1,9 @@
-package org.example.project.controller;
+package com.example.gif.controller;
 
-import org.example.project.dto.ProjectCreateRequest;
+import com.example.gif.dto.ProjectCreateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.example.project.service.ProjectService;
+import com.example.gif.service.ProjectService;
 
 @RestController
 @RequestMapping("/project")

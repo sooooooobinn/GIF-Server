@@ -1,6 +1,6 @@
-package org.example.project.repository;
+package com.example.gif.repository;
 
-import org.example.project.entity.ProjectMember;
+import com.example.gif.entity.ProjectMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProjectMemberRepository extends JpaRepository<ProjectMember, Long> {

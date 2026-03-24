@@ -1,4 +1,4 @@
-package org.example.project.entity;
+package com.example.gif.entity;
 
 public enum Role {
 

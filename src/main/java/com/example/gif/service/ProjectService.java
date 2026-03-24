@@ -1,14 +1,14 @@
-package org.example.project.service;
+package com.example.gif.service;
 
 
-import org.example.project.dto.ProjectCreateRequest;
-import org.example.project.entity.Project;
-import org.example.project.entity.ProjectMember;
-import org.example.project.entity.Role;
-import org.example.project.entity.User;
-import org.example.project.repository.ProjectMemberRepository;
-import org.example.project.repository.ProjectRepository;
-import org.example.project.repository.UserRepository;
+import com.example.gif.dto.ProjectCreateRequest;
+import com.example.gif.entity.Project;
+import com.example.gif.entity.ProjectMember;
+import com.example.gif.entity.Role;
+import com.example.gif.entity.User;
+import com.example.gif.repository.ProjectMemberRepository;
+import com.example.gif.repository.ProjectRepository;
+import com.example.gif.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
