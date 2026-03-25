@@ -30,8 +30,8 @@ public class SecurityConfig {
                         .requestMatchers("/", "/oauth2/**", "/oauth/loginInfo").permitAll()
                         .requestMatchers("/auth/admin/login", "/auth/client/login").permitAll()
 
-                        .requestMatchers("/auth/client/additional-info").hasRole("ROLE_GUEST")
-                        .requestMatchers("/auth/admin/additional-info").hasRole("ROLE_GUEST")
+                        .requestMatchers("/auth/client/additional-info").hasRole("GUEST")
+                        .requestMatchers("/auth/admin/additional-info").hasRole("GUEST")
 
                         .anyRequest().authenticated()
                 )

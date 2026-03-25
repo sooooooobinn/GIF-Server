@@ -6,11 +6,13 @@ import com.example.gif.auth.domain.entity.User;
 import com.example.gif.auth.domain.service.OAuth2Service;
 import com.example.gif.auth.global.security.jwt.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -22,13 +24,13 @@ public class LoginController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("/admin/login")
-    public String adminLogin(HttpServletRequest request) {
-        return "redirect:/oauth2/authorization/google?loginType=admin";
+    public void adminLogin(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/oauth2/authorization/google?loginType=admin");
     }
 
     @GetMapping("/client/login")
-    public String clientLogin(HttpServletRequest request) {
-        return "redirect:/oauth2/authorization/google?loginType=client";
+    public void clientLogin(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/oauth2/authorization/google?loginType=client");
     }
 
     @PostMapping("/client/additional-info")
@@ -45,6 +47,7 @@ public class LoginController {
         ));
     }
 
+    @PostMapping("/admin/additional-info")
     public ResponseEntity<Map<String, Object>> completeAdminInfo(Authentication authentication, @RequestBody AdminAdditionalInfo request) {
         String providerId = authentication.getName();
         User user = service.completeAdminInfo(providerId, request);
