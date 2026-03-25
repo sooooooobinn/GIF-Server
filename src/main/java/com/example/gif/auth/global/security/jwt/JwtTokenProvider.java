@@ -25,7 +25,8 @@ public class JwtTokenProvider {
 
     @PostConstruct
     protected void init() {
-        secretKey = Keys.hmacShaKeyFor(salt.getBytes(StandardCharsets.UTF_8));
+        byte[] keyBytes = salt.getBytes(StandardCharsets.UTF_8);
+        this.secretKey = Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String createToken(String providerId, String email, String role) {
@@ -55,5 +56,14 @@ public class JwtTokenProvider {
             log.info("JWT 토큰 유효성 검증 실패: {}", e.getMessage());
             return false;
         }
+    }
+
+    public String getRole(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("role", String.class);
     }
 }
