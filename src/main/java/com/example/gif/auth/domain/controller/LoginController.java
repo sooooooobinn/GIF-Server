@@ -42,7 +42,7 @@ public class LoginController {
         String newToken = jwtTokenProvider.createToken(user.getProviderId(), user.getEmail(), roleName);
 
         return ResponseEntity.ok(Map.of(
-                "message", "client 정보 저장 완료 및 MEMBER 승격",
+                "message", "client 정보 저장",
                 "accessToken", newToken
         ));
     }
@@ -54,7 +54,7 @@ public class LoginController {
         String newToken = jwtTokenProvider.createToken(user.getProviderId(), user.getEmail(), "ROLE_ADMIN");
 
         return ResponseEntity.ok(Map.of(
-                "message", "admin 정보 저장 완료 및 ADMIN 승격",
+                "message", "admin 정보 저장",
                 "accessToken", newToken
         ));
     }
