@@ -24,13 +24,13 @@ public class LoginController {
     @GetMapping("/admin/login")
     public String adminLogin(HttpServletRequest request) {
         request.getSession().setAttribute("loginType", "admin");
-        return "redirect:/oauth2/authorization/google";
+        return "redirect:/oauth2/authorization/google?loginType=admin";
     }
 
     @GetMapping("/client/login")
     public String clientLogin(HttpServletRequest request) {
         request.getSession().setAttribute("loginType", "client");
-        return "redirect:/oauth2/authorization/google";
+        return "redirect:/oauth2/authorization/google?loginType=client";
     }
 
     @PostMapping("/client/additional-info")

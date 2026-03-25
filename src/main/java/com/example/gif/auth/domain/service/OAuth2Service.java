@@ -33,7 +33,7 @@ public class OAuth2Service extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
         Object loginTypeObj = userRequest.getAdditionalParameters().get("loginType");
-        String loginType = (loginTypeObj != null) ? loginTypeObj.toString() : getLoginTypeFromRequest();
+        String loginType = (loginTypeObj != null) ? loginTypeObj.toString() : "client";
 
         UserProfile userProfile = OAuthAttributes.extract(
                 userRequest.getClientRegistration().getRegistrationId(),
@@ -94,15 +94,5 @@ public class OAuth2Service extends DefaultOAuth2UserService {
                 request.getRole()
         );
         return user;
-    }
-
-    private String getLoginTypeFromRequest() {
-        try {
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-            String loginType = (String) request.getSession().getAttribute("loginType");
-            return (loginType != null) ? loginType : "client";
-        } catch (Exception e) {
-            return "client";
-        }
     }
 }
