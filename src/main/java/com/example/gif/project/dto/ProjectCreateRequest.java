@@ -10,7 +10,7 @@ public class ProjectCreateRequest {
     private String projectName;
     private String teamName;
     private String description;
-    private List<String> members;
+    private List<String> memberProviderIds;
     private String teamLogoUrl;
 
 }

@@ -1,25 +1,23 @@
 package com.example.gif.project.controller;
 
-import com.example.gif.project.service.FileService;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@RestController
-@RequiredArgsConstructor
+
 public class FileController {
 
-    private final FileService fileService;
-
     @PostMapping("/file-upload")
-    public ResponseEntity<String> upload(
-            @RequestParam("file") MultipartFile file
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
 
-    ) {
-        String url = fileService.upload(file);
-        return ResponseEntity.ok(url);
+        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        String path = "C:/upload/" + fileName;
+
+        file.transferTo(new java.io.File(path));
+
+        return ResponseEntity.ok("/upload/" + fileName);
     }
+
 }

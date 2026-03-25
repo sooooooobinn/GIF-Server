@@ -16,10 +16,11 @@ public class Project {
 
     private String projectName;
     private String teamName;
-    private String description;
-    private Long leaderId;
 
-    @Column
+    @Column(length = 2000)
+    private String description;
+
+    private String leaderProviderId;
     private String teamLogoUrl;
 
     @ElementCollection
@@ -27,18 +28,23 @@ public class Project {
             name = "project_member",
             joinColumns = @JoinColumn(name = "project_id")
     )
-    @Column(name = "user_id")
-    private List<Long> memberIds = new ArrayList<>();
+    @Column(name = "provider_id")
+    private List<String> memberProviderIds = new ArrayList<>();
 
-    public Project() {}
+    protected Project() {}
 
-    public Project(String projectName, String teamName, String description,
-                   Long leaderId, String teamLogoUrl, List<Long> memberIds) {
+    public Project(String projectName,
+                   String teamName,
+                   String description,
+                   String leaderProviderId,
+                   String teamLogoUrl,
+                   List<String> memberProviderIds) {
         this.projectName = projectName;
         this.teamName = teamName;
         this.description = description;
-        this.leaderId = leaderId;
+        this.leaderProviderId = leaderProviderId;
         this.teamLogoUrl = teamLogoUrl;
-        this.memberIds = memberIds;
+        this.memberProviderIds = memberProviderIds;
     }
+
 }

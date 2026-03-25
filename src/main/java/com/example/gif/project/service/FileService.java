@@ -18,7 +18,6 @@ public class FileService {
             File dest = new File(uploadDir + fileName);
             file.transferTo(dest);
 
-            // 나중에 접근할 URL
             return "/images/" + fileName;
 
         } catch (Exception e) {
