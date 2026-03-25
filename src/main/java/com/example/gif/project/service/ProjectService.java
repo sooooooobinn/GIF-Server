@@ -36,16 +36,16 @@ public class ProjectService {
                 .orElseThrow();
 
         if (leader.getRole() != Role.TEAM_LEADER) {
-            throw new RuntimeException("팀장만 프로젝트 생성 가능");
+            throw new IllegalArgumentException("팀장만 프로젝트 생성할 수 있습니다.");
         }
 
         Project project = new Project(
                 request.getProjectName(),
                 request.getTeamName(),
                 request.getDescription(),
-                leader.getId()
+                leader.getId(),
+                request.getTeamLogoUrl()
         );
-
         projectRepository.save(project);
 
         for (String studentNumber : request.getMembers()) {
@@ -54,8 +54,9 @@ public class ProjectService {
                     .findByStudentNumber(studentNumber)
                     .orElseThrow();
 
+
             if (member.getRole() != Role.MEMBER) {
-                throw new RuntimeException("팀원만 추가 가능");
+                throw new RuntimeException("팀원만 추가 가능할 수 있습니다.");
             }
 
             ProjectMember projectMember =

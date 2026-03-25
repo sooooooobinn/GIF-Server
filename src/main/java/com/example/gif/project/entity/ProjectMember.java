@@ -9,13 +9,18 @@ public class ProjectMember {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long projectId;
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public ProjectMember() {}
 
-    public ProjectMember(Long projectId, Long userId) {
-        this.projectId = projectId;
-        this.userId = userId;
+    public ProjectMember(Project project, User user) {
+        this.project = project;
+        this.user = user;
     }
 }
