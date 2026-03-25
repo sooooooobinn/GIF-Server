@@ -25,8 +25,14 @@ public class SecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/auth/**", "/oauth2/**", "/oauth/loginInfo").permitAll()
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/", "/oauth2/**", "/oauth/loginInfo").permitAll()
+                        .requestMatchers("/auth/admin/login", "/auth/client/login").permitAll()
+
+                        .requestMatchers("/auth/client/additional-info").hasRole("CLIENT")
+                        .requestMatchers("/auth/admin/additional-info").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
