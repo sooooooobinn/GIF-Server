@@ -5,7 +5,6 @@ import com.example.gif.auth.domain.dto.ClientAdditionalInfo;
 import com.example.gif.auth.domain.entity.User;
 import com.example.gif.auth.domain.service.OAuth2Service;
 import com.example.gif.auth.global.security.jwt.JwtTokenProvider;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
