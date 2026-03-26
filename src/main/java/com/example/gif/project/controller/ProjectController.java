@@ -42,4 +42,11 @@ public class ProjectController {
 
         return ResponseEntity.ok("소개글 수정 완료");
     }
+
+    @GetMapping("/project/admin")
+    public ResponseEntity<?> getAllProjects(
+            @AuthenticationPrincipal String providerId
+    ) {
+        return ResponseEntity.ok(projectService.getAllProjects());
+    }
 }

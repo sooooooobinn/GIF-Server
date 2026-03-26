@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProjectService {
@@ -44,5 +46,10 @@ public class ProjectService {
         }
 
         project.updateDescription(description);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Project> getAllProjects() {
+        return projectRepository.findAll();
     }
 }
