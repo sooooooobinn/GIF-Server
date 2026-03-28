@@ -2,12 +2,9 @@ package com.example.gif.form.domain.controller;
 
 import com.example.gif.form.domain.dto.FormCreateRequest;
 import com.example.gif.form.domain.dto.FormSubmitRequest;
-import com.example.gif.form.domain.dto.SubmitRequest;
 import com.example.gif.form.domain.entity.Form;
 import com.example.gif.form.domain.service.FormService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
