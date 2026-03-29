@@ -43,7 +43,7 @@ public class FormService {
 
     public Form getForm(Long formId) {
         return formRepository.findById(formId)
-                .orElseThrow(() -> new RuntimeException("폼 없음"));
+                .orElseThrow(() -> new RuntimeException("양식이 존재하지 않습니다"));
     }
 
     public void submit(Long formId, FormSubmitRequest request, List<MultipartFile> files) {

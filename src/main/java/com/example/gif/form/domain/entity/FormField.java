@@ -25,6 +25,13 @@ public class FormField {
     @JoinColumn(name = "form_id")
     private Form form;
 
+    public static FormField create(String question, FieldType type) {
+        return FormField.builder()
+                .question(question)
+                .type(type)
+                .build();
+    }
+
     public void setForm(Form form) {
         this.form = form;
     }
