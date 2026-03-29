@@ -1,7 +1,6 @@
 package com.example.gif.project.entity;
 
 import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -24,13 +23,8 @@ public class Project {
     private String teamLogoUrl;
     private String pptUrl;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "project_member",
-            joinColumns = @JoinColumn(name = "project_id")
-    )
-    @Column(name = "provider_id")
-    private List<String> memberProviderIds = new ArrayList<>();
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProjectMember> members = new ArrayList<>();
 
     @Column(nullable = false)
     private Integer grade;
