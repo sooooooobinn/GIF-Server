@@ -7,9 +7,11 @@ import com.example.gif.form.domain.entity.*;
 import com.example.gif.form.domain.repository.FormFieldRepository;
 import com.example.gif.form.domain.repository.FormRepository;
 import com.example.gif.form.domain.repository.FormSubmissionRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class FormService {
     private final FormFieldRepository fieldRepository;
     private final FileService fileService;
 
+    @Transactional
     public void createForm(FormCreateRequest request) {
         Form form = Form.builder()
                 .title(request.getTitle())

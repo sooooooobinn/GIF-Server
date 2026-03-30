@@ -1,6 +1,5 @@
 package com.example.gif.form.domain.entity;
 
-import com.example.gif.auth.domain.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,9 +21,7 @@ public class FormSubmission {
     @JoinColumn(name = "form_id")
     private Form form;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Long userId;
 
     @OneToMany(mappedBy = "submission", cascade = CascadeType.ALL)
     @Builder.Default
