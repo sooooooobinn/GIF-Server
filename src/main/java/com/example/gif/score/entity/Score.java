@@ -1,6 +1,5 @@
 package com.example.gif.score.entity;
 
-import com.example.gif.auth.domain.entity.User;
 import com.example.gif.project.entity.Project;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -19,11 +18,7 @@ public class Score {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", unique = true, nullable = false)
-    private Project teamName;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "evaluator_id", nullable = false)
-    private User evaluator;
+    private Project project;
 
     @Column(name = "technical_score", nullable = false)
     private Integer technicalScore;
@@ -31,7 +26,7 @@ public class Score {
     @Column(name = "social_value_score", nullable = false)
     private Integer socialValueScore;
 
-    @Column(name = "ai_uility_score", nullable = false)
+    @Column(name = "ai_utility_score", nullable = false)
     private Integer aiUtilityScore;
 
     @Column(name = "presentation_score", nullable = false)
@@ -40,16 +35,35 @@ public class Score {
     @Column(name = "total_score", nullable = false)
     private Integer totalScore;
 
+    @Column(name = "score_rank")
     private int rank;
 
     @Builder
-    public Score(Project teamName, User evaluator, Integer technicalScore, Integer socialValueScore, Integer aiUtilityScore, Integer presentationScore) {
-        this.teamName = teamName;
-        this.evaluator = evaluator;
+    public Score(Project project, Integer technicalScore, Integer socialValueScore,
+                 Integer aiUtilityScore, Integer presentationScore) {
+        this.project = project;
         this.technicalScore = technicalScore;
         this.socialValueScore = socialValueScore;
         this.aiUtilityScore = aiUtilityScore;
         this.presentationScore = presentationScore;
-        this.totalScore = technicalScore + socialValueScore + aiUtilityScore + presentationScore;
+        calculateTotalScore();
+    }
+
+    public void updateScore(Integer technicalScore, Integer socialValueScore,
+                            Integer aiUtilityScore, Integer presentationScore) {
+        this.technicalScore = technicalScore;
+        this.socialValueScore = socialValueScore;
+        this.aiUtilityScore = aiUtilityScore;
+        this.presentationScore = presentationScore;
+        calculateTotalScore();
+    }
+
+    public void updateRank(int rank) {
+        this.rank = rank;
+    }
+
+    private void calculateTotalScore() {
+        this.totalScore = this.technicalScore + this.socialValueScore +
+                this.aiUtilityScore + this.presentationScore;
     }
 }

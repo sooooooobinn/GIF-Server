@@ -5,13 +5,13 @@ import lombok.Getter;
 
 @Getter
 public class RankResponseDto {
+    private int rank;
     private String teamName;
     private Integer totalScore;
-    private int rank;
 
     public RankResponseDto(Score score) {
-        this.teamName = score.getTeamName().getProjectName();
-        this.totalScore = score.getTotalScore();
         this.rank = score.getRank();
+        this.teamName = score.getProject().getTeamName();
+        this.totalScore = score.getTotalScore();
     }
 }

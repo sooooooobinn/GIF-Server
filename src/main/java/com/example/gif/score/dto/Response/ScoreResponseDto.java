@@ -6,7 +6,6 @@ import com.example.gif.score.entity.Score;
 @Getter
 public class ScoreResponseDto {
     private String teamName;
-    private String evaluatorName;
     private Integer technicalScore;
     private Integer socialValueScore;
     private Integer aiUtilityScore;
@@ -15,8 +14,7 @@ public class ScoreResponseDto {
     private int rank;
 
     public ScoreResponseDto(Score score) {
-        this.teamName = score.getTeamName().getProjectName();
-        this.evaluatorName = score.getEvaluator().getUsername();
+        this.teamName = score.getProject().getTeamName();
         this.technicalScore = score.getTechnicalScore();
         this.socialValueScore = score.getSocialValueScore();
         this.aiUtilityScore = score.getAiUtilityScore();
