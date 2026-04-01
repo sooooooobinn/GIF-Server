@@ -6,20 +6,20 @@ import com.example.gif.score.entity.Score;
 @Getter
 public class ScoreResponseDto {
     private String teamName;
-    private Integer technicalScore;
-    private Integer socialValueScore;
-    private Integer aiUtilityScore;
-    private Integer presentationScore;
-    private Integer totalScore;
+    private Integer totalTechnicalScore;
+    private Integer totalSocialValueScore;
+    private Integer totalAiUtilityScore;
+    private Integer totalPresentationScore;
+    private Integer finalTotalScore;
     private int rank;
 
-    public ScoreResponseDto(Score score) {
-        this.teamName = score.getProject().getTeamName();
-        this.technicalScore = score.getTechnicalScore();
-        this.socialValueScore = score.getSocialValueScore();
-        this.aiUtilityScore = score.getAiUtilityScore();
-        this.presentationScore = score.getPresentationScore();
-        this.totalScore = score.getTotalScore();
-        this.rank = score.getRank();
+    public ScoreResponseDto(String teamName, Integer tech, Integer social, Integer ai, Integer pres, Integer total, int rank) {
+        this.teamName = teamName;
+        this.totalTechnicalScore = tech;
+        this.totalSocialValueScore = social;
+        this.totalAiUtilityScore = ai;
+        this.totalPresentationScore = pres;
+        this.finalTotalScore = total;
+        this.rank = rank;
     }
 }

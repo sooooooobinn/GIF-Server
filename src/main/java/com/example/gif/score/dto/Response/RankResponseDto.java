@@ -9,9 +9,12 @@ public class RankResponseDto {
     private String teamName;
     private Integer totalScore;
 
-    public RankResponseDto(Score score) {
-        this.rank = score.getRank();
-        this.teamName = score.getProject().getTeamName();
-        this.totalScore = score.getTotalScore();
+    public RankResponseDto(String teamName, Integer totalScore) {
+        this.teamName = teamName;
+        this.totalScore = totalScore;
+    }
+
+    public void assignRank(int rank) {
+        this.rank = rank;
     }
 }

@@ -16,8 +16,8 @@ public class Score {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id", unique = true, nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
     @Column(name = "technical_score", nullable = false)
@@ -32,21 +32,20 @@ public class Score {
     @Column(name = "presentation_score", nullable = false)
     private Integer presentationScore;
 
-    @Column(name = "total_score", nullable = false)
-    private Integer totalScore;
+    @Column(name = "sub_total_score", nullable = false)
+    private Integer subTotalScore;
 
     @Column(name = "score_rank")
     private int rank;
 
     @Builder
-    public Score(Project project, Integer technicalScore, Integer socialValueScore,
-                 Integer aiUtilityScore, Integer presentationScore) {
+    public Score(Project project, Integer technicalScore, Integer socialValueScore, Integer aiUtilityScore, Integer presentationScore) {
         this.project = project;
         this.technicalScore = technicalScore;
         this.socialValueScore = socialValueScore;
         this.aiUtilityScore = aiUtilityScore;
         this.presentationScore = presentationScore;
-        calculateTotalScore();
+        calculateSubTotalScore();
     }
 
     public void updateScore(Integer technicalScore, Integer socialValueScore,
@@ -55,15 +54,10 @@ public class Score {
         this.socialValueScore = socialValueScore;
         this.aiUtilityScore = aiUtilityScore;
         this.presentationScore = presentationScore;
-        calculateTotalScore();
+        calculateSubTotalScore();
     }
 
-    public void updateRank(int rank) {
-        this.rank = rank;
-    }
-
-    private void calculateTotalScore() {
-        this.totalScore = this.technicalScore + this.socialValueScore +
-                this.aiUtilityScore + this.presentationScore;
+    private void calculateSubTotalScore() {
+        this.subTotalScore = this.technicalScore + this.socialValueScore + this.aiUtilityScore + this.presentationScore;
     }
 }

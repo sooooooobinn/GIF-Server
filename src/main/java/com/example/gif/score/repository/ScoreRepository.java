@@ -1,11 +1,13 @@
 package com.example.gif.score.repository;
 
 import com.example.gif.project.entity.Project;
-import org.springframework.data.domain.Score;
+import com.example.gif.score.entity.Score;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
+@Repository
 public interface ScoreRepository extends JpaRepository<Score, Long> {
-    Optional<Score> findByTeamName(Project teamName);
+    List<Score> findByProject(Project project);
 }
