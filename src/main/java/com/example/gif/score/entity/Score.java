@@ -20,6 +20,9 @@ public class Score {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
+    @Column(name = "evaluator_id", nullable = false)
+    private String evaluatorId;
+
     @Column(name = "technical_score", nullable = false)
     private Integer technicalScore;
 
