@@ -22,7 +22,7 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectMemberRepository projectMemberRepository;
     private final UserRepository userRepository;
-    private final FileService fileService;
+    private final FileProjectService fileService;
 
     @Transactional
     public Long createProject(String providerId, ProjectCreateRequest request) {
