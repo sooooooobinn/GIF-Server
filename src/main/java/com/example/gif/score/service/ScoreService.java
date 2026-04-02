@@ -1,5 +1,7 @@
 package com.example.gif.score.service;
 
+import com.example.gif.auth.domain.entity.User;
+import com.example.gif.auth.domain.repository.UserRepository;
 import com.example.gif.project.entity.Project;
 import com.example.gif.project.repository.ProjectRepository;
 import com.example.gif.score.dto.Request.ScoreRequestDto;
@@ -23,9 +25,13 @@ public class ScoreService {
 
     private final ScoreRepository scoreRepository;
     private final ProjectRepository projectRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void saveScore(ScoreRequestDto dto) {
+
+        checkAdminAuthority(dto.getEvaluatorId());
+
         Project project = findProject(dto.getProjectId());
 
         if (scoreRepository.existsByProjectAndEvaluatorId(project, dto.getEvaluatorId())) {
@@ -100,6 +106,15 @@ public class ScoreService {
         }
 
         return rankingList;
+    }
+
+    private void checkAdminAuthority(String providerId) {
+        User user = userRepository.findByProviderAndProviderId(User.Provider.GOOGLE, providerId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+
+        if (user.getUserType() != User.UserType.ADMIN) {
+            throw new SecurityException("ADMIN 권한이 없습니다.");
+        }
     }
 
     private Project findProject(Long projectId) {
