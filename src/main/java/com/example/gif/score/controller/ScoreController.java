@@ -26,7 +26,7 @@ public class ScoreController {
     @PutMapping
     public ResponseEntity<String> updateScore(@RequestBody ScoreRequestDto dto) {
         scoreService.updateScore(dto);
-        return ResponseEntity.ok("점수가 성공적으로 저장되었습니다.");
+        return ResponseEntity.ok("점수가 성공적으로 수정되었습니다.");
     }
 
     @GetMapping
