@@ -27,6 +27,7 @@ public class FormController {
     public FormResponse get(@PathVariable Long formId) {
         return formService.getForm(formId);
     }
+
     @PostMapping("/{formId}/submit")
     public void submit(
             @PathVariable Long formId,
