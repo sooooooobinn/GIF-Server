@@ -78,7 +78,15 @@ jobs:
             IMAGE_NAME=${{ env.OWNER }}/gif-server
             EOF
 
-            bash ~/gif-server/nginx/ssl-init.sh ${{ secrets.DOMAIN }}
+            DOMAIN="${{ secrets.DOMAIN }}"
+            if [ -n "$DOMAIN" ]; then
+              bash ~/gif-server/nginx/ssl-init.sh "$DOMAIN"
+            elif [ ! -f ~/gif-server/nginx/ssl/fullchain.pem ]; then
+              echo "ERROR: DOMAIN secret이 비어있고 SSL 인증서도 없습니다."
+              echo "GitHub Secrets에 DOMAIN을 추가하거나 서버에서 직접 실행하세요:"
+              echo "  bash ~/gif-server/nginx/ssl-init.sh gif-server.duckdns.org"
+              exit 1
+            fi
 
             echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ env.OWNER }} --password-stdin
             docker pull ghcr.io/${{ env.OWNER }}/gif-server:latest
