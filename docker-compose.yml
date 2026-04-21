@@ -1,6 +1,6 @@
 services:
   app:
-    build: .
+    image: gif-server:latest
     expose:
       - "8080"
     env_file:
