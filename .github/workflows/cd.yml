@@ -48,7 +48,7 @@ jobs:
           port: 21103
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: "docker-compose.yml,nginx/nginx.conf,nginx/ssl-init.sh"
+          source: "docker-compose.yml,nginx/nginx.conf,nginx/ssl-init.sh,nginx/certbot-renew.sh"
           target: "~/gif-server"
 
       - name: 서버 배포 (SSH)
@@ -78,11 +78,7 @@ jobs:
             IMAGE_NAME=${{ env.OWNER }}/gif-server
             EOF
 
-            if [ ! -f ~/gif-server/nginx/ssl/fullchain.pem ]; then
-              echo "ERROR: SSL 인증서 없음. 서버에서 먼저 실행하세요:"
-              echo "  sudo bash ~/gif-server/nginx/ssl-init.sh ${{ secrets.DOMAIN }}"
-              exit 1
-            fi
+            bash ~/gif-server/nginx/ssl-init.sh ${{ secrets.DOMAIN }}
 
             echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ env.OWNER }} --password-stdin
             docker pull ghcr.io/${{ env.OWNER }}/gif-server:latest
@@ -90,6 +86,8 @@ jobs:
             cd ~/gif-server
             docker compose up -d --remove-orphans
             docker image prune -f
+
+            docker compose exec -T nginx nginx -s reload || true
 
       - name: GIF_SERVER CD Discord Notification (success)
         if: ${{ success() }}
