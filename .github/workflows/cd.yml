@@ -72,7 +72,9 @@ jobs:
 
             cd ~/gif-server
             docker build -t gif-server:latest .
-            docker-compose down
+            docker ps -q --filter "label=com.docker.compose.project=gif-server" | xargs -r docker stop
+            docker ps -aq --filter "label=com.docker.compose.project=gif-server" | xargs -r docker rm
+            docker network rm gif-server_default 2>/dev/null || true
             docker-compose up -d
             docker image prune -f
 
