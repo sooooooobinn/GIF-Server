@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/${IMAGE_NAME}:latest
+    build: .
     expose:
       - "8080"
     env_file:
