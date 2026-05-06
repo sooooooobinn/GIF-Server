@@ -55,4 +55,12 @@ public class Project {
         this.teamLogoUrl = teamLogoUrl;
     }
 
+    public void updateProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public void updateTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
 }
