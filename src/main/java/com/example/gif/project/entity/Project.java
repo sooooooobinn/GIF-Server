@@ -20,6 +20,7 @@ public class Project {
     private String description;
 
     private String leaderProviderId;
+
     private String teamLogoUrl;
     private String pptUrl;
 
@@ -53,6 +54,14 @@ public class Project {
 
     public void updateTeamLogoUrl(String teamLogoUrl) {
         this.teamLogoUrl = teamLogoUrl;
+    }
+
+    public void updateProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public void updateTeamName(String teamName) {
+        this.teamName = teamName;
     }
 
 }

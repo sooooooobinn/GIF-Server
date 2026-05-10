@@ -109,4 +109,48 @@ public class ProjectService {
         project.updateTeamLogoUrl(fileUrl);
     }
 
+    @Transactional
+    public void updateProjectName(String providerId, Long projectId, String projectName) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("프로젝트 없음"));
+
+        if (!project.getLeaderProviderId().equals(providerId)) {
+            throw new IllegalArgumentException("수정 권한 없음");
+        }
+
+        project.updateProjectName(projectName);
+    }
+
+    @Transactional
+    public void updateTeamName(String providerId, Long projectId, String teamName) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("프로젝트 없음"));
+
+        if (!project.getLeaderProviderId().equals(providerId)) {
+            throw new IllegalArgumentException("수정 권한 없음");
+        }
+
+        project.updateTeamName(teamName);
+    }
+
+    @Transactional
+    public void updateMembers(String providerId, Long projectId, List<String> memberProviderIds) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("프로젝트 없음"));
+
+        if (!project.getLeaderProviderId().equals(providerId)) {
+            throw new IllegalArgumentException("수정 권한 없음");
+        }
+
+        projectMemberRepository.deleteAllByProject(project);
+
+        for (String memberProviderId : memberProviderIds) {
+            User user = userRepository
+                    .findByProviderAndProviderId(User.Provider.GOOGLE, memberProviderId)
+                    .orElseThrow(() -> new RuntimeException("유저 없음: " + memberProviderId));
+
+            projectMemberRepository.save(new ProjectMember(project, user));
+        }
+    }
+
 }

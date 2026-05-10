@@ -1,7 +1,6 @@
 package com.example.gif.project.controller;
 
-import com.example.gif.project.dto.ProjectCreateRequest;
-import com.example.gif.project.dto.ProjectUpdateDescriptionRequest;
+import com.example.gif.project.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,7 +28,7 @@ public class ProjectController {
 
         return ResponseEntity.created(location).build();
     }
-
+    
     @PatchMapping("/{projectId}/description")
     public ResponseEntity<?> updateDescription(
             @PathVariable Long projectId,
@@ -81,4 +80,34 @@ public class ProjectController {
         projectService.updateLogo(projectId, providerId, file);
         return ResponseEntity.ok("로고 수정 완료");
     }
-}   
+    @PatchMapping("/{projectId}/name")
+    public ResponseEntity<?> updateProjectName(
+            @PathVariable Long projectId,
+            @AuthenticationPrincipal String providerId,
+            @RequestBody ProjectUpdateNameRequest request
+    ) {
+        projectService.updateProjectName(providerId, projectId, request.getProjectName());
+        return ResponseEntity.ok("프로젝트명 수정 완료");
+    }
+
+    @PatchMapping("/{projectId}/team-name")
+    public ResponseEntity<?> updateTeamName(
+            @PathVariable Long projectId,
+            @AuthenticationPrincipal String providerId,
+            @RequestBody ProjectUpdateTeamNameRequest request
+    ) {
+        projectService.updateTeamName(providerId, projectId, request.getTeamName());
+        return ResponseEntity.ok("팀명 수정 완료");
+    }
+
+    @PatchMapping("/{projectId}/members")
+    public ResponseEntity<?> updateMembers(
+            @PathVariable Long projectId,
+            @AuthenticationPrincipal String providerId,
+            @RequestBody ProjectUpdateMemberRequest request
+    ) {
+        projectService.updateMembers(providerId, projectId, request.getMemberProviderIds());
+        return ResponseEntity.ok("팀원 수정 완료");
+    }
+
+}
