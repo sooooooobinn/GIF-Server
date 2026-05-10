@@ -20,6 +20,7 @@ public class Project {
     private String description;
 
     private String leaderProviderId;
+
     private String teamLogoUrl;
     private String pptUrl;
 

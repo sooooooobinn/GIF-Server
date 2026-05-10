@@ -79,7 +79,6 @@ public class ProjectController {
     ) {
         projectService.updateLogo(projectId, providerId, file);
         return ResponseEntity.ok("로고 수정 완료");
-
     }
     @PatchMapping("/{projectId}/name")
     public ResponseEntity<?> updateProjectName(
